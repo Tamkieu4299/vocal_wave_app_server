@@ -54,8 +54,6 @@ def recording():
 		print(pred)
 		cv2.putText(frm, pred, (50,50),cv2.FONT_ITALIC, 1, (255,0,0),2)
 
-		np.save("emotion.txt", cv2.putText(frm, pred, (50,50),cv2.FONT_ITALIC, 1, (255,0,0),2))
-
 				
 		drawing.draw_landmarks(frm, res.face_landmarks, holistic.FACEMESH_TESSELATION,
 									landmark_drawing_spec=drawing.DrawingSpec(color=(0,0,255), thickness=-1, circle_radius=1),
@@ -64,10 +62,12 @@ def recording():
 
 		cv2.imshow("window",frm)
 
-		if cv2.waitKey(1) == 27 or data_size >499:
+		if cv2.waitKey(1) == 27 or data_size >99:
+			np.save("emotion.txt", pred)
 			cv2.destroyAllWindows()
 			cap.release()
 			break
+
 
 yes_button = st.button("Yes")
 no_button = st.button("No")
