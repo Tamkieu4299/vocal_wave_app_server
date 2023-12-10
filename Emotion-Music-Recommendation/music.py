@@ -28,6 +28,7 @@ else:
 	st.session_state["run"] = "false"
 
 def recording():
+	cap =cv2.VideoCapture(0)
 	data_size = 0
 	while True:
 
@@ -68,8 +69,8 @@ def recording():
 			cap.release()
 			break
 
-yes_button = st.text_input("Yes")
-no_button = st.text_input("No")
+yes_button = st.button("Yes")
+no_button = st.button("No")
 
 if yes_button and st.session_state["run"] != "false":
 	recording()
