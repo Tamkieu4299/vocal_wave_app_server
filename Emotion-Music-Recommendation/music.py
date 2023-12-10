@@ -10,9 +10,11 @@ import webbrowser
 model  = load_model("model.h5")
 label = np.load("labels.npy")
 holistic = mp.solutions.holistic
+hands = mp.solutions.hands
 holis = holistic.Holistic()
 drawing = mp.solutions.drawing_utils
 
+st.header("Emotion Based Music Recommender")
 
 if "run" not in st.session_state:
 	st.session_state["run"] = "true"
@@ -73,18 +75,25 @@ class EmotionProcessor:
 								landmark_drawing_spec=drawing.DrawingSpec(color=(0,0,255), thickness=-1, circle_radius=1),
 								connection_drawing_spec=drawing.DrawingSpec(thickness=1))
 
+
 		##############################
 
 		return av.VideoFrame.from_ndarray(frm, format="bgr24")
 
+lang = st.text_input("Language")
+singer = st.text_input("singer")
 
-if st.session_state["run"] != "false":
+if lang and singer and st.session_state["run"] != "false":
 	webrtc_streamer(key="key", desired_playing_state=True,
 				video_processor_factory=EmotionProcessor)
 
-if not(emotion):
-	st.warning("Please let me capture your emotion first")
-	st.session_state["run"] = "true"
-else:
-	np.save("emotion.npy", np.array([""]))
-	st.session_state["run"] = "false"
+btn = st.button("Recommend me songs")
+
+if btn:
+	if not(emotion):
+		st.warning("Please let me capture your emotion first")
+		st.session_state["run"] = "true"
+	else:
+		webbrowser.open(f"https://www.youtube.com/results?search_query={lang}+{emotion}+song+{singer}")
+		np.save("emotion.npy", np.array([""]))
+		st.session_state["run"] = "false"
