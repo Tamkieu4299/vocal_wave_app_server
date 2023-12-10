@@ -14,18 +14,18 @@ drawing = mp.solutions.drawing_utils
 
 st.header("Allow us to access your camera ?")
 
-if "run" not in st.session_state:
-	st.session_state["run"] = "true"
+# if "run" not in st.session_state:
+# 	st.session_state["run"] = "true"
 
-try:
-	emotion = np.load("emotion.txt")
-except:
-	emotion=""
+# try:
+# 	emotion = np.load("emotion.txt")
+# except:
+# 	emotion=""
 
-if not(emotion):
-	st.session_state["run"] = "true"
-else:
-	st.session_state["run"] = "false"
+# if not(emotion):
+# 	st.session_state["run"] = "true"
+# else:
+# 	st.session_state["run"] = "false"
 
 def recording():
 	cap =cv2.VideoCapture(0)
@@ -62,8 +62,9 @@ def recording():
 
 		cv2.imshow("window",frm)
 
-		if cv2.waitKey(1) == 27 or data_size >99:
-			np.save("emotion.txt", pred)
+		if cv2.waitKey(1) == 27 or data_size >39:
+			with open('emotion.txt','w') as f:
+				f.write(str(pred))
 			cv2.destroyAllWindows()
 			cap.release()
 			break
@@ -72,7 +73,7 @@ def recording():
 yes_button = st.button("Yes")
 no_button = st.button("No")
 
-if yes_button and st.session_state["run"] != "false":
+if yes_button:
 	recording()
 
 # if btn:
