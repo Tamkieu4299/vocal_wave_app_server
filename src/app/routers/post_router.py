@@ -63,7 +63,7 @@ async def get_post_by_id(post_id: str, db: Session = Depends(get_db)):
 
 @router.get("/search/", response_model=List[PostResponseSchema])
 async def get_posts(db: Session = Depends(get_db)):
-    posts = all_posts(db)
+    posts = await all_posts(db)
     
     posts_dict_list = []
     for post in posts:
