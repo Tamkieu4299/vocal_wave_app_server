@@ -13,6 +13,7 @@ from .routers.user_router import router as user_router
 from .db.database import get_db
 from .routers.inquiry_router import router as inquiry_router
 from .routers.brand_router import router as brand_router
+from .routers.post_router import router as post_router
 from fastapi.staticfiles import StaticFiles
 import os
 
@@ -65,6 +66,9 @@ app.include_router(
 )
 app.include_router(
     inquiry_router, tags=["Inquiry"], prefix=f"{PREFIX}/inquiry"
+)
+app.include_router(
+    post_router, tags=["Post"], prefix=f"{PREFIX}/post"
 )
 app.include_router(
     brand_router, tags=["Brand"], prefix=f"{PREFIX}/brand"
