@@ -4,6 +4,9 @@ import cv2
 import numpy as np 
 import mediapipe as mp 
 from keras.models import load_model
+import keyboard
+import os
+import psutil
 
 model  = load_model("model.h5")
 label = np.load("labels.npy")
@@ -54,13 +57,11 @@ def recording():
 			cv2.destroyAllWindows()
 			cap.release()
 			break
+	#close streamlit browser tab
+	keyboard.press_and_release('ctrl+w')
+	# Terminate streamlit python process
+	pid = os.getpid()
+	p = psutil.Process(pid)
+	p.terminate()
 
 recording()
-
-# if btn:
-# 	if not(emotion):
-# 		st.warning("Please let me capture your emotion first")
-# 		st.session_state["run"] = "true"
-# 	else:
-# 		np.save("emotion.npy", np.array([""]))
-# 		st.session_state["run"] = "false"
