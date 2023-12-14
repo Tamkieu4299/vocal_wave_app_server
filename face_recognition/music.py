@@ -1,9 +1,12 @@
 import streamlit as st
+from streamlit_webrtc import webrtc_streamer
 import av
 import cv2 
 import numpy as np 
 import mediapipe as mp 
 from keras.models import load_model
+import webbrowser
+
 
 model  = load_model("model.h5")
 label = np.load("labels.npy")
@@ -12,29 +15,12 @@ hands = mp.solutions.hands
 holis = holistic.Holistic()
 drawing = mp.solutions.drawing_utils
 
-st.header("Allow us to access your camera ?")
-
-# if "run" not in st.session_state:
-# 	st.session_state["run"] = "true"
-
-# try:
-# 	emotion = np.load("emotion.txt")
-# except:
-# 	emotion=""
-
-# if not(emotion):
-# 	st.session_state["run"] = "true"
-# else:
-# 	st.session_state["run"] = "false"
-
-def recording():
-	cap =cv2.VideoCapture(0)
+def recording(self,frame):
+	# cap =cv2.VideoCapture(0)
 	data_size = 0
 	while True:
-
-		_, frm = cap.read()
-
-		frm = cv2.flip(frm, 1)
+		frm = frame.to_ndarray(format="bgr24")     	
+      	frm = cv2.flip(frm, 1)
 
 		res = holis.process(cv2.cvtColor(frm, cv2.COLOR_BGR2RGB))
 
@@ -65,16 +51,14 @@ def recording():
 		if cv2.waitKey(1) == 27 or data_size >39:
 			with open('emotion.txt','w') as f:
 				f.write(str(pred))
-			cv2.destroyAllWindows()
-			cap.release()
-			break
+			return 	av.VideoFrame.from_ndarray(frm, format="bgr24")
+			# cv2.destroyAllWindows()
+			# cap.release()
+			# break
 
 
-yes_button = st.button("Yes")
-no_button = st.button("No")
-
-if yes_button:
-	recording()
+webrtc_streamer(key="key", desired_playing_state=True,
+				video_processor_factory=recording)
 
 # if btn:
 # 	if not(emotion):
