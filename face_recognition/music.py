@@ -19,10 +19,10 @@ st.header("Emotion Based Music Recommender")
 
 class EmotionProcessor:
 	def recording(self,frame):
-		# cap =cv2.VideoCapture(0)
+		cap =cv2.VideoCapture(0)
 		data_size = 0
 		while True:
-			frm = frame.to_ndarray(format="bgr24")
+			# frm = frame.to_ndarray(format="bgr24")
 			
 			frm = cv2.flip(frm, 1)
 
@@ -50,7 +50,7 @@ class EmotionProcessor:
 										connection_drawing_spec=drawing.DrawingSpec(thickness=1))
 
 
-			return 	av.VideoFrame.from_ndarray(frm, format="bgr24")
+			# return 	av.VideoFrame.from_ndarray(frm, format="bgr24")
 			cv2.imshow("window",frm)
 
 			if cv2.waitKey(1) == 27 or data_size >39:
