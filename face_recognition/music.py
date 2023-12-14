@@ -19,10 +19,9 @@ st.header("Emotion Based Music Recommender")
 
 class EmotionProcessor:
 	def recording(self,frame):
-		cap =cv2.VideoCapture(0)
 		data_size = 0
 		while True:
-			# frm = frame.to_ndarray(format="bgr24")
+			frm = frame.to_ndarray(format="bgr24")
 			
 			frm = cv2.flip(frm, 1)
 
@@ -56,7 +55,7 @@ class EmotionProcessor:
 				with open('emotion.txt','w') as f:
 					f.write(str(pred))
 				cv2.destroyAllWindows()
-				cap.release()
+				return 	av.VideoFrame.from_ndarray(frm, format="bgr24")
 				break
 		return 	av.VideoFrame.from_ndarray(frm, format="bgr24")
 
