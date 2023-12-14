@@ -67,37 +67,37 @@ async def add_audio(
 
     extension = get_audio_file_extension(file)
     file_content = await file.read()
-    audio = AudioSegment.from_file(BytesIO(file_content))
-    desired_sample_rate = 44100  # Example: 44.1 kHz
-    audio = audio.set_frame_rate(desired_sample_rate)
-    audio = audio.set_channels(1)
-    samples = np.array(audio.get_array_of_samples())
-    sample_rate = audio.frame_rate
-    duration_seconds = len(samples) / sample_rate  # Duration based on the length of input audio
-     # Generate the high-pitched sound as a Sine wave
-    frequency=19000
-    high_pitch_duration = 3  # seconds
-    high_pitch_sound = Sine(frequency).to_audio_segment(duration=high_pitch_duration * 1000, volume=-5)  # Convert to milliseconds
+    # audio = AudioSegment.from_file(BytesIO(file_content))
+    # desired_sample_rate = 44100  # Example: 44.1 kHz
+    # audio = audio.set_frame_rate(desired_sample_rate)
+    # audio = audio.set_channels(1)
+    # samples = np.array(audio.get_array_of_samples())
+    # sample_rate = audio.frame_rate
+    # duration_seconds = len(samples) / sample_rate  # Duration based on the length of input audio
+    #  # Generate the high-pitched sound as a Sine wave
+    # frequency=19000
+    # high_pitch_duration = 3  # seconds
+    # high_pitch_sound = Sine(frequency).to_audio_segment(duration=high_pitch_duration * 1000, volume=-5)  # Convert to milliseconds
 
-    # Define the time range for high-pitch effect (first 3 seconds and last 3 seconds)
-    start_time = 0
-    end_time = duration_seconds - high_pitch_duration
+    # # Define the time range for high-pitch effect (first 3 seconds and last 3 seconds)
+    # start_time = 0
+    # end_time = duration_seconds - high_pitch_duration
 
-    # Add high pitch in the first 3 seconds
-    output_audio = audio.overlay(high_pitch_sound, position=start_time)
+    # # Add high pitch in the first 3 seconds
+    # output_audio = audio.overlay(high_pitch_sound, position=start_time)
 
-    # Add high pitch in the last 3 seconds
-    output_audio = output_audio.overlay(high_pitch_sound, position=end_time * 1000)
+    # # Add high pitch in the last 3 seconds
+    # output_audio = output_audio.overlay(high_pitch_sound, position=end_time * 1000)
     
     
     data = audio_data.dict()
-    data["durations"] = duration_seconds
-    print("duration: ", duration_seconds)
+    data["durations"] = 2
     audio: Audio = Audio(**data)
     new_audio = create_audio(audio, db)
     
-    output_file = f"./static/audio/{audio_data.audio_name}.wav"
-    output_audio.export(output_file, format="wav")
+    # output_file = f"./static/audio/{audio_data.audio_name}.wav"
+    save_to_FS("audio", audio_data.audio_name, "mp3", file_content)
+    # output_audio.export(output_file, format="wav")
     
 
     # Add metada
