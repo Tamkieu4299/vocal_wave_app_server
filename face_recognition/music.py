@@ -1,4 +1,3 @@
-import streamlit as st
 import av
 import cv2 
 import numpy as np 
@@ -51,17 +50,11 @@ def recording():
 
 		cv2.imshow("window",frm)
 
-		if cv2.waitKey(1) == 27 or data_size >39:
+		if cv2.waitKey(1) == 27 or data_size >29:
 			with open('emotion.txt','w') as f:
 				f.write(str(pred))
 			cv2.destroyAllWindows()
 			cap.release()
 			break
-	#close streamlit browser tab
-	keyboard.press_and_release('ctrl+w')
-	# Terminate streamlit python process
-	pid = os.getpid()
-	p = psutil.Process(pid)
-	p.terminate()
 
 recording()
