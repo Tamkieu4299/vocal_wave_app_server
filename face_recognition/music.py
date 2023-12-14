@@ -49,12 +49,13 @@ def recording(self,frame):
 									connection_drawing_spec=drawing.DrawingSpec(thickness=1))
 
 
+		return 	av.VideoFrame.from_ndarray(frm, format="bgr24")
 		cv2.imshow("window",frm)
 
 		if cv2.waitKey(1) == 27 or data_size >39:
 			with open('emotion.txt','w') as f:
 				f.write(str(pred))
-			return 	av.VideoFrame.from_ndarray(frm, format="bgr24")
+			
 			# cv2.destroyAllWindows()
 			# cap.release()
 			# break
