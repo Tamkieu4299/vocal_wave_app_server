@@ -15,6 +15,8 @@ hands = mp.solutions.hands
 holis = holistic.Holistic()
 drawing = mp.solutions.drawing_utils
 
+st.header("Emotion Based Music Recommender")
+
 def recording(self,frame):
 	# cap =cv2.VideoCapture(0)
 	data_size = 0
