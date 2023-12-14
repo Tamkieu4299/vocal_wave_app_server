@@ -50,16 +50,16 @@ class EmotionProcessor:
 										connection_drawing_spec=drawing.DrawingSpec(thickness=1))
 
 
-			# return 	av.VideoFrame.from_ndarray(frm, format="bgr24")
 			cv2.imshow("window",frm)
 
 			if cv2.waitKey(1) == 27 or data_size >39:
 				with open('emotion.txt','w') as f:
 					f.write(str(pred))
-				
-				# cv2.destroyAllWindows()
-				# cap.release()
-				# break
+				cv2.destroyAllWindows()
+				cap.release()
+				break
+		return 	av.VideoFrame.from_ndarray(frm, format="bgr24")
+
 
 
 webrtc_streamer(key="key", desired_playing_state=True,
