@@ -22,6 +22,7 @@ class Audio(Base):
     price = Column(Float, default=0)
     is_deleted = Column(Boolean, default=False)
     created_by = Column(String, nullable=False)
+    emotion_type = Column(String, default='happy')
     updated_at = Column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )

@@ -10,6 +10,7 @@ class AudioBaseSchema(BaseModel):
     price: Optional[float]
     created_by: str
     audio_id: UUID4
+    emotion_type: str
 
     class Config:
         orm_mode = True
@@ -18,7 +19,7 @@ class AudioBaseSchema(BaseModel):
 
 class CreateAudioSchema(BaseModel):
     audio_name: str
-    price: Optional[float]
+    # price: Optional[float]
     created_by: str
 
     @classmethod
