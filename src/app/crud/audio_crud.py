@@ -128,6 +128,16 @@ async def all_audios(db: Session) -> list[Audio]:
     )
     return db_audios
 
+async def audios_by_emotion(emotion:str, db: Session) -> list[Audio]:
+    print(emotion)
+    db_audios = (
+        db.query(Audio)
+        .where(Audio.emotion_type == emotion)
+        .all()
+    )
+    return db_audios
+
+
 
 def all_deleted_audios(db: Session):
     db_books = (

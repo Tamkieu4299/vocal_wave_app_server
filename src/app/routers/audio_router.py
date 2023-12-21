@@ -1,15 +1,14 @@
 import os
 import uuid
+import requests
 import numpy as np
 from pydub import AudioSegment
 from pydub.generators import Sine
 from io import BytesIO
 from typing import List
-
 from fastapi import APIRouter, Depends, File, UploadFile, status, Form
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
-
 from ..crud.audio_crud import (
     all_audios,
     create_audio,
@@ -17,6 +16,7 @@ from ..crud.audio_crud import (
     soft_delete,
     update_audio,
     search_audios_by_name,
+    audios_by_emotion
 )
 from ..db.database import get_db
 from ..models.audio_model import Audio
@@ -154,9 +154,17 @@ async def get_audios(db: Session = Depends(get_db)):
     return audios_dict_list
 
 
-@router.get("/search/{name}", response_model=List[AudioResponseSchema])
-async def search_audios(name: str, db: Session = Depends(get_db)):
-    audios = await search_audios_by_name(name, db)
+@router.get("/search_emotion", response_model=List[AudioResponseSchema])
+async def search_audios(db: Session = Depends(get_db)):
+    #Call ML method
+    response = requests.get("http://host.docker.internal:8002/face_recognition")
+    emotion = "happy"
+    if response.status_code == 200:
+        # Access the JSON content using the .json attribute, not as a method
+        emotion = response.json()
+    print(emotion)
+    print("==============")
+    audios = await audios_by_emotion(emotion, db)
     audios_dict_list = [i.__dict__ for i in audios]
     logger.info(f"Number of audios: {len(audios)}")
     return audios_dict_list
