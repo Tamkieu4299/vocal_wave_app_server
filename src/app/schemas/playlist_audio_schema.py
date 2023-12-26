@@ -21,6 +21,7 @@ class CreateAudioSchema(BaseModel):
     audio_name: str
     # price: Optional[float]
     created_by: str
+    emotion_type: str
 
     @classmethod
     def __get_validators__(cls):
