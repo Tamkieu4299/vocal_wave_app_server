@@ -159,16 +159,24 @@ async def get_audios(db: Session = Depends(get_db)):
     return audios_dict_list
 
 
-@router.get("/search_emotion", response_model=List[AudioResponseSchema])
+@router.get("/search_emotion")
 async def search_audios(db: Session = Depends(get_db)):
     #Call ML method
     response = requests.get("http://host.docker.internal:8002/face_recognition")
-    emotion = "happy"
+    # emotion = "happy"
     if response.status_code == 200:
-        # Access the JSON content using the .json attribute, not as a method
-        emotion = response.json()
-    print(emotion)
-    print("==============")
+        return response.json()
+    return 'happy'
+    # if response.status_code == 200:
+    #     emotion = response.json()
+    # audios = await audios_by_emotion(emotion, db)
+    # audios_dict_list = [i.__dict__ for i in audios]
+    # logger.info(f"Number of audios: {len(audios)}")
+    # return audios_dict_list
+
+
+@router.get("/search/{emotion}", response_model=List[AudioResponseSchema])
+async def get_audios_by_emotion(emotion: str, db: Session = Depends(get_db)):
     audios = await audios_by_emotion(emotion, db)
     audios_dict_list = [i.__dict__ for i in audios]
     logger.info(f"Number of audios: {len(audios)}")

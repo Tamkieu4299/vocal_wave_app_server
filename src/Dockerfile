@@ -12,8 +12,6 @@ COPY ./requirements.txt /
 # Install dependencies using pip
 RUN pip3 install --no-cache-dir -r /requirements.txt
 
-# Expose port for the application
-
 ### DEVELOPMENT ###
 FROM base as development
 
