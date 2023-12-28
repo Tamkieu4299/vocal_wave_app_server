@@ -1,6 +1,7 @@
 import os
 import uuid
 import requests
+import datetime
 import numpy as np
 from pydub import AudioSegment
 from pydub.generators import Sine
@@ -67,6 +68,10 @@ async def add_audio(
 
     extension = get_audio_file_extension(file)
     file_content = await file.read()
+
+    audio = AudioSegment.from_file(BytesIO(file_content))
+    duration_seconds = len(audio) / 1000
+
     # audio = AudioSegment.from_file(BytesIO(file_content))
     # desired_sample_rate = 44100  # Example: 44.1 kHz
     # audio = audio.set_frame_rate(desired_sample_rate)
@@ -91,7 +96,7 @@ async def add_audio(
     
     
     data = audio_data.dict()
-    data["durations"] = 2
+    data["durations"] = duration_seconds
     audio: Audio = Audio(**data)
     new_audio = create_audio(audio, db)
     
