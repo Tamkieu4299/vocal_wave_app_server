@@ -1,3 +1,6 @@
-*.pvc
+*.pyc
 __pycache__/
 image/
+**/*.pyc
+*.log
+**/*.log

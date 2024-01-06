@@ -8,6 +8,7 @@ class PostResponseSchema(BaseModel):
     user_id: UUID4
     uploaded_link: str
     content: str
+    created_at: datetime
 
     class Config:
         orm_mode = True
