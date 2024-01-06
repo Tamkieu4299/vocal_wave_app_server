@@ -6,7 +6,7 @@ import json
 class PostResponseSchema(BaseModel):
     post_id: UUID4
     user_id: UUID4
-    uploaded_link: str
+    uploaded_link: Union[str, None]
     content: str
     created_at: datetime
 
