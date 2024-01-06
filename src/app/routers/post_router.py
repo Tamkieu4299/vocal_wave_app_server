@@ -1,8 +1,9 @@
 import os
 import uuid
 from typing import List
+from app.utils.handle_file import save_to_FS, validate_file_type
 
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException, Form, UploadFile, File
 from sqlalchemy.orm import Session
 
 from ..crud.post_crud import (
@@ -20,7 +21,7 @@ from ..schemas.post_schema import (
     CreatePostSchema,
     PostResponseSchema,
 )
-from ..utils.exception import NotFoundException
+from ..utils.exception import InvalidFileType, NotFoundException
 from ..utils.logger import setup_logger
 
 logger = setup_logger(__name__)
@@ -34,9 +35,21 @@ router = APIRouter()
     response_model=PostResponseSchema,
 )
 async def add_post(
-    post_data: CreatePostSchema,
+    post_data: CreatePostSchema = Form(...),
+    file: UploadFile = File(None),
     db: Session = Depends(get_db),
 ):
+    if file:
+        """Create an audio"""
+        is_image = validate_file_type(file, "image")
+        
+        # # Check if not an audio
+        if is_image is False:
+            raise InvalidFileType(detail="Your upload file must be an image")
+        file_content = await file.read()
+        file_name = str(uuid.uuid4().hex)
+        save_to_FS("image",  file_name, "jpg", file_content)
+        post_data.uploaded_link = file_name
 
     post: Post = Post(**post_data.dict())
     new_post = create_post(post, db)
