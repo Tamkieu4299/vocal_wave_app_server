@@ -61,6 +61,7 @@ async def add_audio(
     
     data = audio_data.dict()
     data["durations"] = duration_seconds
+    data["emotion_type"] = data["emotion_type"].lower()
     audio: Audio = Audio(**data)
     new_audio = create_audio(audio, db)
     

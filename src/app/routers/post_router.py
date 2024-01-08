@@ -42,13 +42,19 @@ async def add_post(
     if file:
         """Create an audio"""
         is_image = validate_file_type(file, "image")
-        
-        # # Check if not an audio
-        if is_image is False:
-            raise InvalidFileType(detail="Your upload file must be an image")
+        is_audio = validate_file_type(file, 'audio')
+
+        if is_image is False and is_audio is False:
+            raise InvalidFileType(detail="Your upload file must be an image or audio")
         file_content = await file.read()
         file_name = str(uuid.uuid4().hex)
-        save_to_FS("image",  file_name, "jpg", file_content)
+        if is_image:
+            save_to_FS("image",  file_name, "jpg", file_content)
+            file_name+= ".jpg"
+        elif is_audio:
+            save_to_FS("audio",  file_name, "mp3", file_content)
+            file_name+= ".mp3"
+
         post_data.uploaded_link = file_name
 
     post: Post = Post(**post_data.dict())
