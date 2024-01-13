@@ -6,17 +6,19 @@ import json
 class PostResponseSchema(BaseModel):
     post_id: UUID4
     user_id: UUID4
+    audio_id: Union[UUID4, None]
     uploaded_link: Union[str, None]
     content: str
     created_at: datetime
 
-    class Config:
+    class Config:   
         orm_mode = True
 
 class CreatePostSchema(BaseModel):
     user_id: UUID4
     content: Union[str, None]
     uploaded_link: Union[str, None]
+    audio_id:  Union[UUID4, None]
 
     @classmethod
     def __get_validators__(cls):

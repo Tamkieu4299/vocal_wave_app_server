@@ -17,6 +17,7 @@ class Post(Base):
     )
     user_id = Column(UUID(as_uuid=True), nullable=False)
     uploaded_link = Column(String, nullable=True)
+    audio_id = Column(UUID(as_uuid=True), nullable=True)
     content = Column(String, nullable=True)
     created_at = Column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
