@@ -8,10 +8,6 @@ from ..crud.playlist_crud import search_playlists_by_name
 from ..schemas.user_schema import UserUpdateInfoSchema
 
 async def add_user(user: User, db: Session) -> User:
-    # create playlist
-    default_playlist = search_playlists_by_name("default", db)
-    user.playlist_id = default_playlist[0].playlist_id
-    
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -174,7 +170,10 @@ def update_user_info(user_id: str, user_info: UserUpdateInfoSchema,  db: Session
     
     if user_info.address:
         user.address = user_info.address
-    
+
+    if user_info.bio:
+        user.bio = user_info.bio
+
     db.commit()
     db.refresh(user)
     return user

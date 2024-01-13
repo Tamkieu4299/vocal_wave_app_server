@@ -4,3 +4,6 @@ image/
 **/*.pyc
 *.log
 **/*.log
+*.mp3
+*.pyc
+*.log

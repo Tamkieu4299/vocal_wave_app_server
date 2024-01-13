@@ -7,8 +7,6 @@ class RegisterBaseSchema(BaseModel):
     name: str
     phone: str
     password: str
-    car_seat: str
-    brand: str
 
     class Config:
         orm_mode = True
@@ -55,7 +53,7 @@ class LoginResponse(BaseModel):
     name: str
     phone: str
     role: str
-    playlist_id: UUID4 = None
     car_seat: int
+    bio: str = None
     class Config:
         orm_mode = True

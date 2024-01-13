@@ -76,7 +76,6 @@ async def login(
     db: Session = Depends(get_db),
 ):
     user = search_user(login_data.username, db)
-
     if user is None:
         raise NotFoundException(detail=f"Invalid user name")
 

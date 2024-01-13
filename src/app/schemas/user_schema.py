@@ -49,6 +49,7 @@ class UserResponseSchema(BaseModel):
     total_time: Optional[float]
     balance_point: Optional[float]
 
+    bio: Optional[str]
     class Config:
         orm_mode = True
 
@@ -79,7 +80,7 @@ class UserUpdateInfoSchema(BaseModel):
     email: Optional[str]
     address: Optional[str]
     
-
+    bio: Optional[str]
     
 
    

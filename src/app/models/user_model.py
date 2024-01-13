@@ -49,6 +49,7 @@ class User(Base):
     total_time = Column(Float, nullable=False, default=0)
     balance_point = Column(Float, nullable=False, default=0)
     
+    bio = Column(String, nullable=True)
     is_deleted = Column(Boolean, default=False)
 
     class Config:
